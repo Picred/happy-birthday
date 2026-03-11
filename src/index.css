@@ -56,3 +56,13 @@
     @apply bg-purple-500;
   }
 }
+
+@keyframes rain {
+  from { background-position: 0 0; }
+  to { background-position: 0 300px; }
+}
+
+@keyframes hydraulic_cooldown {
+  0% { transform: scaleX(0); }
+  100% { transform: scaleX(1); }
+}
