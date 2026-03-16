@@ -7,7 +7,7 @@ import './index.css';
 
 const questions = [
   {
-    topic: "La F1",
+    topic: "La Formula 1",
     question: "Chi è l'attuale campione del mondo di Formula 1 (2025)?",
     options: [
       { main: "Lewis Hamilton", sub: "Il veterano sette volte campione" },
