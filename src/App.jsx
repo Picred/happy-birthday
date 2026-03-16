@@ -366,7 +366,7 @@ function WelcomePage({ onNavigate, completedGames }) {
         {/* ── Compact Hero ── */}
         <div className="text-center">
           <span className="text-purple-400 text-xs font-bold tracking-[0.25em] uppercase block mb-3">🎉 IT'S YOUR SPECIAL DAY</span>
-          <h1 className="text-5xl font-black text-white mb-3 leading-tight">
+          <h1 className="text-4xl sm:text-5xl font-black text-white mb-3 leading-tight">
             Happy Birthday,{' '}
             <span
               className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500 cursor-pointer"
@@ -862,7 +862,7 @@ function QuizPage({ onClose }) {
       </AnimatePresence>
 
       <div className="w-full min-h-screen flex flex-col items-center relative z-10">
-        <header className="flex justify-between items-center p-6 mb-4 w-full">
+        <header className="flex justify-between items-center px-4 py-4 mb-4 w-full">
           <div className="flex items-center gap-3 cursor-pointer" onClick={() => onClose('home')}>
             <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center text-fuchsia-400 shadow-sm border border-slate-700">
               <Sparkles size={16} fill="currentColor" />
@@ -880,7 +880,7 @@ function QuizPage({ onClose }) {
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4 }}
-            className={`bg-slate-900 w-full max-w-3xl rounded-[2.5rem] shadow-[0_0_40px_rgba(168,85,247,0.1)] border border-slate-800 p-6 sm:p-12 mb-10 overflow-hidden relative ${q.isInverted ? 'border-4 border-fuchsia-500 bg-fuchsia-900/20 ring-8 ring-fuchsia-500/20 shadow-[0_0_50px_rgba(217,70,239,0.3)]' : ''}`}
+            className={`bg-slate-900 w-full max-w-3xl rounded-[2.5rem] shadow-[0_0_40px_rgba(168,85,247,0.1)] border border-slate-800 p-5 sm:p-12 mb-10 overflow-hidden relative ${q.isInverted ? 'border-4 border-fuchsia-500 bg-fuchsia-900/20 ring-8 ring-fuchsia-500/20 shadow-[0_0_50px_rgba(217,70,239,0.3)]' : ''}`}
           >
             {q.isInverted && <div className="absolute top-4 right-4 bg-fuchsia-600 text-white text-xs font-bold px-3 py-1 rounded-full animate-pulse shadow-[0_0_10px_rgba(217,70,239,0.8)]">UPSIDE DOWN MODE</div>}
 
@@ -902,11 +902,11 @@ function QuizPage({ onClose }) {
               <Sparkles size={24} />
             </div>
 
-            <h2 className="text-2xl sm:text-4xl font-black text-center text-slate-100 mb-10 px-4 drop-shadow-md">
+            <h2 className="text-xl sm:text-4xl font-black text-center text-slate-100 mb-8 sm:mb-10 px-2 drop-shadow-md">
               {q.question}
             </h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2 relative w-full">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-2 relative w-full overflow-hidden">
               {q.options.map((opt, idx) => {
                 const isWrong = wrongAnswers.includes(idx);
                 const isCorrect = selectedAnswer === q.correctAnswer && idx === q.correctAnswer;
@@ -1087,7 +1087,7 @@ function F1ReactionGame({ onClose, onWin }) {
       >
         <div className="text-center">
           <span className="text-red-500 text-xs font-bold tracking-[0.3em] uppercase mb-3 block">SFIDA 1 di 3 · FORMULA 1</span>
-          <h1 className="text-5xl font-black text-white mb-3 tracking-wider">F1 REACTION START</h1>
+          <h1 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-wider">F1 REACTION START</h1>
           <p className="text-slate-400 text-sm">
             {gameState === 'idle' ? 'Clicca su Inizia Gara per cominciare' : gameState === 'playing' ? '🟢 VIA! CLICCA ORA!' : 'Clicca sullo schermo appena le luci si spengono!'}
           </p>
@@ -1096,10 +1096,10 @@ function F1ReactionGame({ onClose, onWin }) {
         {/* F1 Lights Display */}
         <div className="relative">
           <div className="absolute inset-0 bg-red-900/10 blur-[60px] rounded-full" />
-          <div className="relative flex gap-5 p-8 bg-slate-900/90 rounded-[2rem] border border-slate-800 shadow-2xl shadow-black/50 backdrop-blur-sm">
+          <div className="relative flex gap-3 sm:gap-5 p-5 sm:p-8 bg-slate-900/90 rounded-[2rem] border border-slate-800 shadow-2xl shadow-black/50 backdrop-blur-sm">
             {[1, 2, 3, 4, 5].map(i => (
               <div key={i} className="flex flex-col items-center gap-2">
-                <div className={`w-14 h-14 rounded-full border-4 transition-all duration-100 ${
+                <div className={`w-10 h-10 sm:w-14 sm:h-14 rounded-full border-4 transition-all duration-100 ${
                   gameState === 'playing' ? 'bg-emerald-400 border-emerald-300 shadow-[0_0_30px_#4ade80]' :
                   gameState === 'waiting' && lightsCount >= i ? 'bg-red-500 border-red-400 shadow-[0_0_25px_#ef4444]' :
                   'bg-slate-800 border-slate-700'
@@ -1287,7 +1287,7 @@ function BugCatcherGame({ onClose, onWin }) {
       <div className="text-center mt-4 mb-4 relative z-10 pointer-events-none">
         <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-2 block">SFIDA 3 di 3 · BIOTECH</span>
         <h1 className="text-4xl font-black text-white mb-3">VACCINE SIMULATOR 🧬</h1>
-        <div className="flex justify-center gap-8 font-bold text-xl">
+        <div className="flex justify-center gap-4 sm:gap-8 font-bold text-xl">
           <div className="flex flex-col items-center">
             <span className="text-slate-500 text-xs uppercase tracking-widest mb-1">Score</span>
             <span className="text-purple-400 text-3xl font-black">{score}</span>

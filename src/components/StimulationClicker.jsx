@@ -692,7 +692,7 @@ export default function StimulationClicker({ onClose }) {
 
       {/* Tamagotchi Pet */}
       {has('tamagotchi') && (
-        <div className="fixed bottom-4 right-4 z-50 pointer-events-auto w-40 bg-[#f9f0e3] border-4 border-[#8b6914] rounded-3xl p-3 shadow-2xl text-center cursor-pointer select-none"
+        <div className="hidden sm:block fixed bottom-4 right-4 z-50 pointer-events-auto w-40 bg-[#f9f0e3] border-4 border-[#8b6914] rounded-3xl p-3 shadow-2xl text-center cursor-pointer select-none"
           onClick={feedTamagotchi}
           title="Clicca per nutrire il tuo pet! (-100 stim)"
         >
@@ -720,7 +720,7 @@ export default function StimulationClicker({ onClose }) {
       {has('hydraulic') && (
         <div
           onClick={handleHydraulicClick}
-          className={`fixed top-24 right-[340px] flex flex-col items-center z-40 pointer-events-auto shadow-2xl rounded-xl border-4 border-black bg-black overflow-hidden w-[320px] h-[180px] ${!has('auto_hydraulic') && hydraulicReady && !isPaused ? 'cursor-pointer hover:scale-105 active:scale-95 transition-transform' : 'opacity-80 grayscale-[30%]'}`}
+          className={`hidden lg:flex fixed top-24 right-[340px] flex-col items-center z-40 pointer-events-auto shadow-2xl rounded-xl border-4 border-black bg-black overflow-hidden w-[320px] h-[180px] ${!has('auto_hydraulic') && hydraulicReady && !isPaused ? 'cursor-pointer hover:scale-105 active:scale-95 transition-transform' : 'opacity-80 grayscale-[30%]'}`}
         >
           {/* Loading bar when not ready & manual */}
           {!has('auto_hydraulic') && (!hydraulicReady || hydraulicSquish) && (
@@ -787,7 +787,7 @@ export default function StimulationClicker({ onClose }) {
 
       {/* STONKS PANEL (Top-Right) */}
       {has('stock_market') && (
-        <div className="fixed top-24 right-4 bg-[#0a0a0a] border border-gray-800 p-3 rounded-xl w-80 shadow-2xl z-40 font-mono text-[10px] text-green-400 pointer-events-auto">
+        <div className="hidden sm:block fixed top-24 right-4 bg-[#0a0a0a] border border-gray-800 p-3 rounded-xl w-72 sm:w-80 max-w-[90vw] shadow-2xl z-40 font-mono text-[10px] text-green-400 pointer-events-auto">
           <div className="flex items-center justify-between border-b border-gray-800 pb-2 mb-2">
             <span className="font-bold tracking-widest text-xs">📈 STIM-DAQ TERMINAL</span>
             <span className="text-gray-500">{new Date().toLocaleTimeString()}</span>
@@ -842,7 +842,7 @@ export default function StimulationClicker({ onClose }) {
       )}
 
       {/* Media Stacks (Fixed corners) */}
-      <div className="fixed top-20 left-4 flex flex-col gap-3 z-30 pointer-events-auto">
+      <div className="hidden sm:flex fixed top-20 left-4 flex-col gap-3 z-30 pointer-events-auto">
         {has('podcast') && (
           <div className="w-[280px] h-[157px] shadow-md border border-gray-300 rounded-lg overflow-hidden bg-black flex items-center justify-center relative">
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/SUECfaeM0OA?autoplay=1&controls=0&mute=0" title="Podcast" frameBorder="0" allow="autoplay; encrypted-media; picture-in-picture" />
@@ -862,7 +862,7 @@ export default function StimulationClicker({ onClose }) {
         )}
       </div>
 
-      <div className="fixed bottom-4 right-4 flex items-end gap-4 z-30 pointer-events-auto text-black">
+      <div className="hidden sm:flex fixed bottom-4 right-4 items-end gap-4 z-30 pointer-events-auto text-black">
         {has('lofi') && (
           <div className="w-[300px] h-[168px] rounded-lg overflow-hidden shadow-md border border-gray-300 bg-black">
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&controls=0&playsinline=1" title="Lofi Girl" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
