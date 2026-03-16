@@ -8,14 +8,14 @@ import './index.css';
 const questions = [
   {
     topic: "La Formula 1",
-    question: "Chi è l'attuale campione del mondo di Formula 1 (2025)?",
+    question: "Chi è l'attuale campione del mondo di Formula 1?",
     options: [
       { main: "Lewis Hamilton", sub: "Il veterano sette volte campione" },
       { main: "Charles Leclerc", sub: "Il predestinato della Ferrari" },
       { main: "Max Verstappen", sub: "Super Max, ovviamente" },
       { main: "Lando Norris", sub: "Il giovane talento McLaren" }
     ],
-    correctAnswer: 2,
+    correctAnswer: 3,
     isSpinning: true
   },
   {
@@ -68,7 +68,7 @@ const questions = [
   },
   {
     topic: "Ooooops",
-    question: "Attento! Quale di queste è la risposta giusta?",
+    question: "Attenta! Quale di queste è la risposta giusta?",
     options: [
       { main: "Questa qui!", sub: "No è troppo facile" },
       { main: "Quella affianco", sub: "Assolutamente no" },
@@ -314,14 +314,15 @@ function MegaSurprise({ score, onClose }) {
   )
 }
 
-function WelcomePage({ onNavigate, completedGames }) {
+function WelcomePage({ onNavigate, completedGames, isMobile }) {
   const isF1Done = completedGames.includes('f1');
   const isMemoryDone = completedGames.includes('memory');
   const isBugDone = completedGames.includes('bug');
+  const isQuizDone = completedGames.includes('quiz');
   const canPlayMemory = isF1Done;
   const canPlayBug = isF1Done && isMemoryDone;
   const canPlayQuiz = isF1Done && isMemoryDone && isBugDone;
-  const doneCount = [isF1Done, isMemoryDone, isBugDone].filter(Boolean).length;
+  const doneCount = [isF1Done, isMemoryDone, isBugDone, isQuizDone].filter(Boolean).length;
 
   const steps = [
     {
@@ -345,15 +346,15 @@ function WelcomePage({ onNavigate, completedGames }) {
     {
       num: 4, label: 'The Big Quiz 🏆', emoji: '❓',
       desc: 'Boss finale: 15 domande per sbloccare il tuo regalo',
-      done: false, unlocked: canPlayQuiz, nav: 'quiz',
+      done: isQuizDone, unlocked: canPlayQuiz, nav: 'quiz',
       color: 'fuchsia',
     },
   ];
 
   const colorMap = {
-    red:     { ring: 'ring-red-500',     bg: 'bg-red-500',     text: 'text-red-400',     border: 'border-red-500/40',     hover: 'hover:border-red-500/60' },
+    red: { ring: 'ring-red-500', bg: 'bg-red-500', text: 'text-red-400', border: 'border-red-500/40', hover: 'hover:border-red-500/60' },
     emerald: { ring: 'ring-emerald-500', bg: 'bg-emerald-500', text: 'text-emerald-400', border: 'border-emerald-500/40', hover: 'hover:border-emerald-500/60' },
-    cyan:    { ring: 'ring-cyan-500',    bg: 'bg-cyan-500',    text: 'text-cyan-400',    border: 'border-cyan-500/40',    hover: 'hover:border-cyan-500/60' },
+    cyan: { ring: 'ring-cyan-500', bg: 'bg-cyan-500', text: 'text-cyan-400', border: 'border-cyan-500/40', hover: 'hover:border-cyan-500/60' },
     fuchsia: { ring: 'ring-fuchsia-500', bg: 'bg-fuchsia-500', text: 'text-fuchsia-400', border: 'border-fuchsia-500/40', hover: 'hover:border-fuchsia-500/60' },
   };
 
@@ -376,7 +377,7 @@ function WelcomePage({ onNavigate, completedGames }) {
             </span>!
           </h1>
           <p className="text-slate-400 text-sm leading-relaxed">
-            Supera le 3 sfide in sequenza per sbloccare il quiz finale e riscuotere il tuo regalo 🎁
+            Supera le 4 sfide in sequenza per sbloccare il regalo finale 🎁
           </p>
         </div>
 
@@ -384,11 +385,11 @@ function WelcomePage({ onNavigate, completedGames }) {
         <div className="w-full bg-slate-800 rounded-full h-2 overflow-hidden">
           <div
             className="h-full bg-gradient-to-r from-purple-500 to-fuchsia-500 transition-all duration-700 shadow-[0_0_8px_rgba(217,70,239,0.5)]"
-            style={{ width: `${(doneCount / 3) * 100}%` }}
+            style={{ width: `${(doneCount / 4) * 100}%` }}
           />
         </div>
         <p className="text-slate-500 text-xs text-center -mt-6">
-          {doneCount === 3 ? '✅ Sfide completate! Vai al Quiz Finale.' : `Sfide completate: ${doneCount} / 3`}
+          {doneCount === 4 ? '✅ Tutte le sfide completate! Auguri!' : `Sfide completate: ${doneCount} / 4`}
         </p>
 
         {/* ── Step List ── */}
@@ -401,20 +402,18 @@ function WelcomePage({ onNavigate, completedGames }) {
               <div
                 key={i}
                 onClick={() => step.unlocked && !step.done && onNavigate(step.nav)}
-                className={`flex items-center gap-4 p-4 rounded-2xl border transition-all duration-200 ${
-                  step.done
-                    ? 'bg-emerald-900/10 border-emerald-500/30 opacity-60'
-                    : isLocked
+                className={`flex items-center gap-4 p-4 rounded-2xl border transition-all duration-200 ${step.done
+                  ? 'bg-emerald-900/10 border-emerald-500/30 opacity-60'
+                  : isLocked
                     ? 'bg-slate-900/40 border-slate-800 opacity-40 grayscale cursor-not-allowed'
                     : `bg-slate-800/60 ${c.border} ${c.hover} cursor-pointer hover:bg-slate-800 active:scale-[0.98]`
-                }`}
+                  }`}
               >
                 {/* Step number / check */}
-                <div className={`w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center text-sm font-black transition-colors ${
-                  step.done ? 'bg-emerald-500 text-white' :
+                <div className={`w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center text-sm font-black transition-colors ${step.done ? 'bg-emerald-500 text-white' :
                   isLocked ? 'bg-slate-800 text-slate-600' :
-                  `ring-2 ${c.ring} bg-transparent ${c.text}`
-                }`}>
+                    `ring-2 ${c.ring} bg-transparent ${c.text}`
+                  }`}>
                   {step.done ? '✓' : isLocked ? '🔒' : step.num}
                 </div>
 
@@ -445,17 +444,26 @@ function WelcomePage({ onNavigate, completedGames }) {
         </button>
         {/* ── Stimulation Clicker Extra ── */}
         <div
-          onClick={() => onNavigate('stim-clicker')}
-          className="flex items-center gap-4 p-4 rounded-2xl border border-purple-500/30 bg-purple-900/10 hover:bg-purple-900/20 hover:border-purple-400 cursor-pointer transition-all active:scale-[0.98]"
+          onClick={() => !isMobile && onNavigate('stim-clicker')}
+          className={`flex items-center gap-4 p-4 rounded-2xl border transition-all ${isMobile
+            ? 'border-slate-800 bg-slate-900/40 opacity-50 cursor-not-allowed'
+            : 'border-purple-500/30 bg-purple-900/10 hover:bg-purple-900/20 hover:border-purple-400 cursor-pointer active:scale-[0.98]'
+            }`}
         >
-          <div className="w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center bg-purple-900/40 text-purple-400 text-xl ring-2 ring-purple-500">
-            🧠
+          <div className={`w-10 h-10 rounded-full flex-shrink-0 flex items-center justify-center text-xl ring-2 ${isMobile
+            ? 'bg-slate-800 text-slate-600 ring-slate-700'
+            : 'bg-purple-900/40 text-purple-400 ring-purple-500'
+            }`}>
+            {isMobile ? '🔒' : '🧠'}
           </div>
           <div className="flex-1">
-            <p className="font-bold text-sm text-white">Stimulation Clicker <span className="text-purple-400 text-xs font-normal">EXTRA</span></p>
-            <p className="text-slate-400 text-xs">Un clicker game caotico ispirato a neal.fun — upgrade shop, DVD, news ticker e brain rot!</p>
+            <p className={`font-bold text-sm ${isMobile ? 'text-slate-500' : 'text-white'}`}>
+              Stimulation Clicker <span className={`${isMobile ? 'text-slate-600' : 'text-purple-400'} text-xs font-normal`}>EXTRA</span>
+              {isMobile && <span className="ml-2 text-[10px] font-normal text-slate-600 underline">DESKTOP ONLY</span>}
+            </p>
+            <p className={`text-xs ${isMobile ? 'text-slate-700' : 'text-slate-400'}`}>Un clicker game caotico ispirato a neal.fun — upgrade shop, DVD, news ticker e brain rot!</p>
           </div>
-          <ArrowRight size={16} className="text-purple-400" />
+          {!isMobile && <ArrowRight size={16} className="text-purple-400" />}
         </div>
 
 
@@ -778,7 +786,7 @@ function BouncingButton({ idx, opt, stateClasses, radioColor, radioBg, onSelect 
 }
 
 
-function QuizPage({ onClose }) {
+function QuizPage({ onClose, onWin }) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [showSurprise, setShowSurprise] = useState(false);
   const [selectedAnswer, setSelectedAnswer] = useState(null);
@@ -818,6 +826,7 @@ function QuizPage({ onClose }) {
       setWrongAnswers([]);
     } else {
       setShowSurprise(true);
+      onWin();
     }
   }
 
@@ -1099,11 +1108,10 @@ function F1ReactionGame({ onClose, onWin }) {
           <div className="relative flex gap-3 sm:gap-5 p-5 sm:p-8 bg-slate-900/90 rounded-[2rem] border border-slate-800 shadow-2xl shadow-black/50 backdrop-blur-sm">
             {[1, 2, 3, 4, 5].map(i => (
               <div key={i} className="flex flex-col items-center gap-2">
-                <div className={`w-10 h-10 sm:w-14 sm:h-14 rounded-full border-4 transition-all duration-100 ${
-                  gameState === 'playing' ? 'bg-emerald-400 border-emerald-300 shadow-[0_0_30px_#4ade80]' :
+                <div className={`w-10 h-10 sm:w-14 sm:h-14 rounded-full border-4 transition-all duration-100 ${gameState === 'playing' ? 'bg-emerald-400 border-emerald-300 shadow-[0_0_30px_#4ade80]' :
                   gameState === 'waiting' && lightsCount >= i ? 'bg-red-500 border-red-400 shadow-[0_0_25px_#ef4444]' :
-                  'bg-slate-800 border-slate-700'
-                }`} />
+                    'bg-slate-800 border-slate-700'
+                  }`} />
               </div>
             ))}
           </div>
@@ -1131,7 +1139,7 @@ function F1ReactionGame({ onClose, onWin }) {
         <div className="relative z-10 flex flex-col items-center justify-center gap-6 pb-16 px-8 text-center w-full max-w-lg">
           <div className="w-full bg-slate-900/80 border border-slate-800 rounded-[2rem] p-8 backdrop-blur-sm shadow-2xl">
             <p className="text-slate-400 text-sm mb-2">Il tuo tempo di reazione:</p>
-            <p className="font-black drop-shadow-[0_0_20px_rgba(52,211,153,0.6)] mb-1" style={{fontSize:'5rem',lineHeight:1, color: reactionTime < 400 ? '#4ade80' : reactionTime < 600 ? '#facc15' : '#f87171'}}>
+            <p className="font-black drop-shadow-[0_0_20px_rgba(52,211,153,0.6)] mb-1" style={{ fontSize: '5rem', lineHeight: 1, color: reactionTime < 400 ? '#4ade80' : reactionTime < 600 ? '#facc15' : '#f87171' }}>
               {reactionTime}<span className="text-2xl ml-2 font-bold">ms</span>
             </p>
             <p className="text-slate-300 font-semibold text-lg mb-6">
@@ -1206,11 +1214,10 @@ function EmojiMatchGame({ onClose, onWin }) {
             <div
               key={card.id}
               onClick={() => handleCardClick(idx)}
-              className={`aspect-square rounded-2xl flex items-center justify-center text-4xl sm:text-5xl cursor-pointer transition-all duration-300 select-none ${
-                isSolved ? 'bg-emerald-900/30 border-2 border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.2)]' :
+              className={`aspect-square rounded-2xl flex items-center justify-center text-4xl sm:text-5xl cursor-pointer transition-all duration-300 select-none ${isSolved ? 'bg-emerald-900/30 border-2 border-emerald-500/50 shadow-[0_0_12px_rgba(16,185,129,0.2)]' :
                 isFlipped ? 'bg-slate-800 border-2 border-purple-500/60 shadow-[0_0_15px_rgba(168,85,247,0.25)]' :
-                'bg-slate-800/60 border-2 border-slate-700 hover:border-purple-500/40 hover:bg-slate-800 active:scale-95'
-              }`}
+                  'bg-slate-800/60 border-2 border-slate-700 hover:border-purple-500/40 hover:bg-slate-800 active:scale-95'
+                }`}
             >
               <motion.span
                 animate={{ opacity: isFlipped ? 1 : 0, scale: isFlipped ? 1 : 0.3, rotateY: isFlipped ? 0 : 90 }}
@@ -1282,7 +1289,7 @@ function BugCatcherGame({ onClose, onWin }) {
       <div className="p-8 pb-0 relative z-10 w-full"><Navbar onAction={onClose} /></div>
 
       {/* Animated background grid pattern */}
-      <div className="absolute inset-0 pointer-events-none z-0 opacity-10" style={{backgroundImage:'radial-gradient(circle, rgba(6,182,212,0.4) 1px, transparent 1px)', backgroundSize:'32px 32px'}} />
+      <div className="absolute inset-0 pointer-events-none z-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, rgba(6,182,212,0.4) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
 
       <div className="text-center mt-4 mb-4 relative z-10 pointer-events-none">
         <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-2 block">SFIDA 3 di 3 · BIOTECH</span>
@@ -1309,7 +1316,7 @@ function BugCatcherGame({ onClose, onWin }) {
           >
             <div className="text-6xl mb-4">🦠</div>
             <h2 className="text-2xl font-black text-white mb-3">Vaccine Simulator</h2>
-            <p className="text-slate-300 mb-6 text-sm leading-relaxed">Sei una Biotech Queen! Schiaccia tutti i virus 🦠 prima che scada il tempo.<br/><br/>⚠️ Se clicchi a vuoto perdi un punto!</p>
+            <p className="text-slate-300 mb-6 text-sm leading-relaxed">Sei una Biotech Queen! Schiaccia tutti i virus 🦠 prima che scada il tempo.<br /><br />⚠️ Se clicchi a vuoto perdi un punto!</p>
             <button onClick={startGame} className="btn-primary w-full bg-cyan-600 hover:bg-cyan-500 border-none shadow-cyan-500/30 text-lg py-4">Inizia Ricerca 🔬</button>
           </motion.div>
         </div>
@@ -1359,6 +1366,14 @@ function App() {
   const [currentPage, setCurrentPage] = useState('home');
   // Store unlocked progress ('f1', 'memory', 'bug')
   const [completedGames, setCompletedGames] = useState([]);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
 
 
@@ -1371,8 +1386,8 @@ function App() {
         exit={{ opacity: 0 }}
         transition={{ duration: 0.3 }}
       >
-        {currentPage === 'home' && <WelcomePage onNavigate={setCurrentPage} completedGames={completedGames} />}
-        {currentPage === 'quiz' && <QuizPage onClose={setCurrentPage} />}
+        {currentPage === 'home' && <WelcomePage onNavigate={setCurrentPage} completedGames={completedGames} isMobile={isMobile} />}
+        {currentPage === 'quiz' && <QuizPage onClose={setCurrentPage} onWin={() => setCompletedGames(prev => [...new Set([...prev, 'quiz'])])} />}
         {currentPage === 'memory' && <MemoryLane onClose={setCurrentPage} />}
         {currentPage === 'f1-game' && <F1ReactionGame onClose={setCurrentPage} onWin={() => setCompletedGames(prev => [...new Set([...prev, 'f1'])])} />}
         {currentPage === 'bug-game' && <BugCatcherGame onClose={setCurrentPage} onWin={() => setCompletedGames(prev => [...new Set([...prev, 'bug'])])} />}
