@@ -580,7 +580,7 @@ export default function StimulationClicker({ onClose }) {
           <span className="relative z-10 bg-black text-white px-2 py-0.5 font-bold ml-2 shrink-0">BREAKING NEWS</span>
           <div className="overflow-hidden flex-1 relative h-5 ml-2">
             <motion.div
-              animate={{ x: ["0%", "-50%"] }}
+              animate={{ x: ["0%", "-15%"] }}
               transition={{ repeat: Infinity, duration: 25, ease: 'linear' }}
               className="whitespace-nowrap absolute flex gap-4"
             >
@@ -592,8 +592,8 @@ export default function StimulationClicker({ onClose }) {
       )}
 
       {/* Close button top right */}
-      <div className="absolute top-4 right-4 z-50">
-        <button onClick={() => onClose('home')} className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 text-gray-600 transition shadow">
+      <div className="absolute top-4 right-4 z-50 pointer-events-auto cursor-pointer ">
+        <button onClick={() => onClose('home')} className="w-10 h-10 rounded-full bg-red-200 flex items-center justify-center hover:bg-red-400 text-gray-600 transition shadow">
           <X size={20} />
         </button>
       </div>
@@ -605,6 +605,7 @@ export default function StimulationClicker({ onClose }) {
       )}
 
       {/* ADMIN CHEAT BUTTON FOR TESTING */}
+      {/*
       <button
         onClick={() => {
           setStim(s => s + 10000000);
@@ -614,6 +615,7 @@ export default function StimulationClicker({ onClose }) {
       >
         ADMIN +10M
       </button>
+      */}
 
       {/* ----------------------------------------------------------------------- */}
       {/* 3. FIXED OVERLAYS (Ensures no "compenetrazione" with center content)     */}

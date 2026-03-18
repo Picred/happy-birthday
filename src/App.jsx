@@ -292,22 +292,26 @@ function MegaSurprise({ score, onClose }) {
 
           {/* The actual ticket/surprise */}
           <div className="bg-slate-800 p-6 rounded-2xl border-2 border-dashed border-purple-500/50 w-full mb-8 relative overflow-hidden shadow-sm">
-            <div className="absolute top-0 right-0 bg-gradient-to-l from-purple-600 to-pink-500 text-white text-[10px] font-bold px-4 py-1.5 rounded-bl-2xl uppercase shadow-sm">VIP PASS x CLAUDIA</div>
-            <h3 className="text-xl sm:text-2xl font-black text-slate-100 mb-2 mt-4">BUONO VALIDO PER:</h3>
-            <p className="text-purple-400 font-black text-xl sm:text-2xl mb-4">1 CENA PAGATA + SERATA LIBERA</p>
+            <div className="absolute top-0 right-0 bg-gradient-to-l from-purple-600 to-pink-500 text-white text-[10px] font-bold px-4 py-1.5 rounded-bl-2xl uppercase shadow-sm">EVENTO SPECIALE</div>
+            <h3 className="text-xl sm:text-2xl font-black text-slate-100 mb-2 mt-4">THE FIRST SPIN CEREMONY</h3>
+            <p className="text-purple-400 font-black text-xl sm:text-2xl mb-4 uppercase">Pizza & qualcosa da bere 🍕🍻</p>
             <p className="text-slate-300 font-medium text-sm sm:text-base leading-relaxed">
-              Hai sbagliato solo {15 - score} test, ma hai dimostrato di avere i requisiti. <br />
-              Anche se studi "Molecular Biotech", questo test era più difficile! 🧬🔬<br />
-              Fai uno screenshot a questa schermata e invialo subito per riscuotere il tuo premio.
+              Hai superato il test! Visto che il regalo lo hai già <br />
+              Questo ticket vale per quando avrai qualcosa per ascoltarlo: <br />
+              (Fai lo screen, non dimenticartelo! Dimostra che hai superato il test!)
             </p>
+
             <div className="w-full h-px bg-slate-700 my-4"></div>
-            <p className="text-slate-500 text-xs font-mono uppercase tracking-widest">Scadenza: Prossimo GP di F1 🏎️🏁</p>
+            <p className="text-slate-500 text-[10px] font-mono uppercase tracking-widest mb-1 text-center">
+              Completato: {new Date().toLocaleDateString('it-IT')} ore {new Date().toLocaleTimeString('it-IT', { hour: '2-digit', minute: '2-digit' })}
+            </p>
+            <p className="text-slate-500 text-xs font-mono uppercase tracking-widest">Validità: Boh, fino a quando non compri il lettore ♾️</p>
           </div>
 
           <button onClick={() => onClose('home')} className="btn-primary w-full shadow-purple-500/30 shadow-lg mb-4 h-14 text-lg">
             Riscuoti e Festeggia 🥳
           </button>
-          <p className="text-purple-400 font-bold text-sm">P.S. Tanti infiniti auguri ancora!</p>
+          <p className="text-purple-400 font-bold text-sm">P.S. Buon Compleanno! Ti voglio bene!</p>
         </div>
       </motion.div>
     </div>
@@ -366,18 +370,21 @@ function WelcomePage({ onNavigate, completedGames, isMobile }) {
 
         {/* ── Compact Hero ── */}
         <div className="text-center">
-          <span className="text-purple-400 text-xs font-bold tracking-[0.25em] uppercase block mb-3">🎉 IT'S YOUR SPECIAL DAY</span>
+          <span className="text-purple-400 text-xs font-bold tracking-[0.25em] uppercase block mb-3">🎉 IL TUO GIORNO SPECIALE</span>
           <h1 className="text-4xl sm:text-5xl font-black text-white mb-3 leading-tight">
-            Happy Birthday,{' '}
+            Buon Compleanno,{' '}
             <span
               className="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-fuchsia-500 cursor-pointer"
-              onClick={() => alert('🎉 Tanti Auguriiiii Claudia!')}
+              onClick={() => alert('🎉 Tanti Auguriiiii AMO!')}
             >
               Claudia
             </span>!
           </h1>
           <p className="text-slate-400 text-sm leading-relaxed">
             Supera le 4 sfide in sequenza per sbloccare il regalo finale 🎁
+          </p>
+          <p className="text-red-400 text-md font-bold leading-relaxed mt-2 animate-pulse animate-duration-1000">
+            Non aggiornare la pagina o perderai i progressi! ⚠️
           </p>
         </div>
 
@@ -388,8 +395,8 @@ function WelcomePage({ onNavigate, completedGames, isMobile }) {
             style={{ width: `${(doneCount / 4) * 100}%` }}
           />
         </div>
-        <p className="text-slate-500 text-xs text-center -mt-6">
-          {doneCount === 4 ? '✅ Tutte le sfide completate! Auguri!' : `Sfide completate: ${doneCount} / 4`}
+        <p className="text-emerald-400 text-md text-center -mt-6">
+          {doneCount === 4 ? '✅ Tutte le sfide completate! Se sei da Desktop, prova Stimulation Clicker!' : `Sfide completate: ${doneCount} / 4`}
         </p>
 
         {/* ── Step List ── */}
@@ -440,7 +447,7 @@ function WelcomePage({ onNavigate, completedGames, isMobile }) {
           className="btn-primary w-full py-4 text-base bg-fuchsia-600 hover:bg-fuchsia-500 shadow-lg shadow-fuchsia-600/30 border-none"
         >
           <Sparkles size={18} />
-          {canPlayQuiz ? '🏆 Vai al Quiz Finale!' : doneCount === 0 ? 'Inizia la Prima Sfida 🏁' : `Continua → Sfida ${doneCount + 1}`}
+          {canPlayQuiz ? '🏆 Rifai il quiz se vuoi' : doneCount === 0 ? 'Inizia la Prima Sfida 🏁' : `Continua → Sfida ${doneCount + 1}`}
         </button>
         {/* ── Stimulation Clicker Extra ── */}
         <div
@@ -469,9 +476,9 @@ function WelcomePage({ onNavigate, completedGames, isMobile }) {
 
         <p
           className="text-center text-xs text-slate-600 cursor-pointer hover:text-purple-400 transition-colors"
-          onClick={() => alert('Fatto con amore ❤️')}
+          onClick={() => alert('🍞 Fatto con voglia di pane 🍞')}
         >
-          Made with <Heart size={10} className="inline text-fuchsia-600" fill="currentColor" /> for Claudia · 2026
+          Made with <Heart size={10} className="inline text-fuchsia-600" fill="currentColor" /> for Claudia · 19/03/2026
         </p>
       </div>
     </div>
@@ -1095,7 +1102,7 @@ function F1ReactionGame({ onClose, onWin }) {
         onClick={gameState === 'waiting' || gameState === 'playing' ? handleClick : undefined}
       >
         <div className="text-center">
-          <span className="text-red-500 text-xs font-bold tracking-[0.3em] uppercase mb-3 block">SFIDA 1 di 3 · FORMULA 1</span>
+          <span className="text-red-500 text-xs font-bold tracking-[0.3em] uppercase mb-3 block">SFIDA 1 di 4 · FORMULA 1</span>
           <h1 className="text-3xl sm:text-5xl font-black text-white mb-3 tracking-wider">F1 REACTION START</h1>
           <p className="text-slate-400 text-sm">
             {gameState === 'idle' ? 'Clicca su Inizia Gara per cominciare' : gameState === 'playing' ? '🟢 VIA! CLICCA ORA!' : 'Clicca sullo schermo appena le luci si spengono!'}
@@ -1198,7 +1205,7 @@ function EmojiMatchGame({ onClose, onWin }) {
     <div className="w-screen min-h-screen bg-slate-950 flex flex-col items-center m-0 pb-20">
       <Navbar onAction={onClose} />
       <div className="text-center mt-10 mb-8 px-4">
-        <span className="text-emerald-400 text-xs font-bold tracking-[0.3em] uppercase mb-3 block">SFIDA 2 di 3 · MEMORIA</span>
+        <span className="text-emerald-400 text-xs font-bold tracking-[0.3em] uppercase mb-3 block">SFIDA 2 di 4 · MEMORIA</span>
         <h1 className="text-4xl font-black text-white mb-2">EMOJI MATCH</h1>
         <div className="flex items-center justify-center gap-4 mt-2">
           <span className="text-slate-400 text-sm">Mosse:</span>
@@ -1292,7 +1299,7 @@ function BugCatcherGame({ onClose, onWin }) {
       <div className="absolute inset-0 pointer-events-none z-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle, rgba(6,182,212,0.4) 1px, transparent 1px)', backgroundSize: '32px 32px' }} />
 
       <div className="text-center mt-4 mb-4 relative z-10 pointer-events-none">
-        <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-2 block">SFIDA 3 di 3 · BIOTECH</span>
+        <span className="text-cyan-400 text-xs font-bold tracking-[0.3em] uppercase mb-2 block">SFIDA 3 di 4 · BIOTECH</span>
         <h1 className="text-4xl font-black text-white mb-3">VACCINE SIMULATOR 🧬</h1>
         <div className="flex justify-center gap-4 sm:gap-8 font-bold text-xl">
           <div className="flex flex-col items-center">
