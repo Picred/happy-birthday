@@ -213,7 +213,7 @@ export default function StimulationClicker({ onClose }) {
     if (has('tab_title')) {
       document.title = 'Stimulation Clicker';
     }
-    return () => { document.title = 'Vite + React'; };
+    return () => { document.title = 'Pensierino di compleanno!!!'; };
   }, [boughtIds]);
 
   // Loot Box Spawner
