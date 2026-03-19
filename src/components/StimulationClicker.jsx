@@ -209,7 +209,7 @@ export default function StimulationClicker({ onClose }) {
   // Tab Title
   useEffect(() => {
     if (has('tab_title')) {
-      document.title = 'Stimulation Clicker';
+      document.title = 'CONTROLLA BENE LÌ SOTTO';
     }
     return () => { document.title = 'Pensierino di compleanno!!!'; };
   }, [boughtIds]);
