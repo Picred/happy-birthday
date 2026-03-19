@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion, AnimatePresence, useDragControls } from 'framer-motion';
 import { Gift, Heart, Trash2, ArrowRight, ArrowLeft, BookOpen, HelpCircle, X, Sparkles, Star, Image as ImageIcon, AlertTriangle, Flame, Activity, Ghost, TrendingUp, TrendingDown } from 'lucide-react';
 import Confetti from 'react-confetti';
 import {
@@ -126,6 +126,8 @@ export default function StimulationClicker({ onClose }) {
 
   // ACHIEVEMENTS & STATS
   const [achievements, setAchievements] = useState([]);
+  const achieveDragControls = useDragControls();
+  const shopDragControls = useDragControls();
   const [achieveToast, setAchieveToast] = useState(null);
   const [level, setLevel] = useState(1);
   const [cornerHits, setCornerHits] = useState(0);
@@ -510,7 +512,7 @@ export default function StimulationClicker({ onClose }) {
 
       {/* TOP NAVBAR & NEWS */}
       {hasNews && (
-        <div className="fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-200 text-black text-sm py-1 overflow-hidden flex items-center">
+        <motion.div drag dragMomentum={false} className="fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-200 text-black text-sm py-1 overflow-hidden flex items-center cursor-grab active:cursor-grabbing">
           <span className="relative z-10 bg-black text-white px-2 py-0.5 font-bold ml-2 shrink-0">BREAKING NEWS</span>
           <div className="overflow-hidden flex-1 relative h-5 ml-2">
             <motion.div
@@ -522,7 +524,7 @@ export default function StimulationClicker({ onClose }) {
               <span className="pr-4">{[...NEWS_ITEMS].join('   ·   ')}</span>
             </motion.div>
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* Close button top right */}
@@ -533,9 +535,9 @@ export default function StimulationClicker({ onClose }) {
       </div>
 
       {has('screen_time') && (
-        <div className="fixed top-[60px] left-4 z-50 text-white font-mono text-sm bg-black px-3 py-1.5 rounded-md border border-gray-700 shadow-md pointer-events-none">
+        <motion.div drag dragMomentum={false} className="fixed top-[60px] left-4 z-50 text-white font-mono text-sm bg-black px-3 py-1.5 rounded-md border border-gray-700 shadow-md cursor-grab active:cursor-grabbing pointer-events-auto">
           Screen Time: {formatTime(screenTime)}
-        </div>
+        </motion.div>
       )}
 
       {/* ADMIN CHEAT BUTTON FOR TESTING */}
@@ -561,7 +563,8 @@ export default function StimulationClicker({ onClose }) {
           initial={{ x: '-100vw' }}
           animate={{ x: '100vw' }}
           transition={{ duration: 15, ease: 'linear' }}
-          className="fixed top-[10%] left-0 z-[100] opacity-70 pointer-events-none whitespace-nowrap flex items-center"
+          drag dragMomentum={false}
+          className="fixed top-[10%] left-0 z-[100] opacity-70 pointer-events-auto cursor-grab active:cursor-grabbing whitespace-nowrap flex items-center"
         >
           <span className="text-6xl drop-shadow-md">✈️</span>
           <span className="text-2xl ml-4 font-black tracking-widest text-black drop-shadow-lg bg-white/80 px-4 py-1 rounded-full">{skywriterText || 'BUY MORE STIM'}</span>
@@ -575,7 +578,8 @@ export default function StimulationClicker({ onClose }) {
             initial={{ opacity: 0, scale: 0.8, y: 30 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: -20 }}
-            className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[80] bg-white border-2 border-green-500 rounded-2xl p-4 shadow-2xl pointer-events-auto min-w-[240px] text-center"
+            drag dragMomentum={false}
+            className="fixed bottom-24 left-1/2 -translate-x-1/2 z-[80] bg-white border-2 border-green-500 rounded-2xl p-4 shadow-2xl pointer-events-auto min-w-[240px] text-center cursor-grab active:cursor-grabbing"
           >
             <p className="text-xs font-bold text-green-600 uppercase tracking-widest mb-1">💪 PERSONAL TRAINER</p>
             <p className="text-2xl font-black text-black">{fitnessExercise.name}</p>
@@ -587,7 +591,7 @@ export default function StimulationClicker({ onClose }) {
 
       {/* Twitch Chat Overlay (Reaction Streamer) */}
       {hasReactionStreamer && twitchMessages.length > 0 && (
-        <div className="fixed bottom-24 right-4 z-40 flex flex-col gap-1 pointer-events-none w-52">
+        <motion.div drag dragMomentum={false} className="fixed bottom-24 right-4 z-40 flex flex-col gap-1 cursor-grab active:cursor-grabbing pointer-events-auto w-52">
           <div className="bg-[#1a1a2e]/90 rounded-t-lg px-3 py-1 text-purple-400 font-black text-xs tracking-widest flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" /> LIVE CHAT
           </div>
@@ -607,7 +611,7 @@ export default function StimulationClicker({ onClose }) {
               ))}
             </AnimatePresence>
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* Powerup Flash */}
@@ -628,7 +632,7 @@ export default function StimulationClicker({ onClose }) {
 
       {/* Tamagotchi Pet */}
       {has('tamagotchi') && (
-        <div className="hidden sm:block fixed bottom-4 right-4 z-50 pointer-events-auto w-40 bg-[#f9f0e3] border-4 border-[#8b6914] rounded-3xl p-3 shadow-2xl text-center cursor-pointer select-none"
+        <motion.div drag dragMomentum={false} className="hidden sm:block fixed bottom-4 right-4 z-50 pointer-events-auto w-40 bg-[#f9f0e3] border-4 border-[#8b6914] rounded-3xl p-3 shadow-2xl text-center cursor-grab active:cursor-grabbing select-none"
           onClick={feedTamagotchi}
           title="Clicca per nutrire il tuo pet! (-100 stim)"
         >
@@ -649,14 +653,16 @@ export default function StimulationClicker({ onClose }) {
             {tamagotchiAction === 'eating' ? 'Om nom nom!' : tamagotchiHunger > 60 ? 'Felice!' : tamagotchiHunger > 30 ? 'Ho fame...' : 'AFFAMATO! Cliccami!'}
           </p>
           <p className="text-[8px] text-gray-400 mt-1">Tocca per nutrire</p>
-        </div>
+        </motion.div>
       )}
 
       {/* Hydraulic Press (Top-Right-ish) */}
       {has('hydraulic') && (
-        <div
+        <motion.div
+          drag
+          dragMomentum={false}
           onClick={handleHydraulicClick}
-          className={`hidden lg:flex fixed top-24 right-[340px] flex-col items-center z-40 pointer-events-auto shadow-2xl rounded-xl border-4 border-black bg-black overflow-hidden w-[320px] h-[180px] ${!has('auto_hydraulic') && hydraulicReady ? 'cursor-pointer hover:scale-105 active:scale-95 transition-transform' : 'opacity-80 grayscale-[30%]'}`}
+          className={`hidden lg:flex fixed top-24 right-[340px] flex-col items-center z-40 pointer-events-auto shadow-2xl rounded-xl border-4 border-black bg-black overflow-hidden w-[320px] h-[180px] cursor-grab active:cursor-grabbing ${!has('auto_hydraulic') && hydraulicReady ? 'hover:scale-105 active:scale-95 transition-transform' : 'opacity-80 grayscale-[30%]'}`}
         >
           {/* Loading bar when not ready & manual */}
           {!has('auto_hydraulic') && (!hydraulicReady || hydraulicSquish) && (
@@ -718,12 +724,12 @@ export default function StimulationClicker({ onClose }) {
               </motion.div>
             )}
           </AnimatePresence>
-        </div>
+        </motion.div>
       )}
 
       {/* STONKS PANEL (Top-Right) */}
       {has('stock_market') && (
-        <div className="hidden sm:block fixed top-24 right-4 bg-[#0a0a0a] border border-gray-800 p-3 rounded-xl w-72 sm:w-80 max-w-[90vw] shadow-2xl z-40 font-mono text-[10px] text-green-400 pointer-events-auto">
+        <motion.div drag dragMomentum={false} className="hidden sm:block fixed top-24 right-4 bg-[#0a0a0a] border border-gray-800 p-3 rounded-xl w-72 sm:w-80 max-w-[90vw] shadow-2xl z-40 font-mono text-[10px] text-green-400 pointer-events-auto cursor-grab active:cursor-grabbing">
           <div className="flex items-center justify-between border-b border-gray-800 pb-2 mb-2">
             <span className="font-bold tracking-widest text-xs">📈 STIM-DAQ TERMINAL</span>
             <span className="text-gray-500">{new Date().toLocaleTimeString()}</span>
@@ -754,12 +760,12 @@ export default function StimulationClicker({ onClose }) {
           <div className="mt-2 text-right border-t border-gray-800 pt-2 text-gray-500">
             Available Funds: <span className="text-white">{Math.floor(stim).toLocaleString()} stim</span>
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* EMAIL TOASTS (Top Center) */}
       {fakeNotifs.length > 0 && (
-        <div className="fixed top-24 left-1/2 -translate-x-1/2 z-[60] flex flex-col gap-2 pointer-events-none">
+        <motion.div drag dragMomentum={false} className="fixed top-24 left-1/2 -translate-x-1/2 z-[60] flex flex-col gap-2 pointer-events-auto cursor-grab active:cursor-grabbing">
           <AnimatePresence>
             {fakeNotifs.map(n => (
               <motion.div key={n.id} initial={{ opacity: 0, y: -20, scale: 0.9 }} animate={{ opacity: 1, y: 0, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="bg-white border shadow-2xl rounded-xl p-3 w-80 pointer-events-auto">
@@ -774,13 +780,13 @@ export default function StimulationClicker({ onClose }) {
               </motion.div>
             ))}
           </AnimatePresence>
-        </div>
+        </motion.div>
       )}
 
       {/* Media Stacks (Fixed corners) */}
-      <div className="hidden sm:flex fixed top-20 left-4 flex-col gap-3 z-30 pointer-events-auto">
+      <motion.div drag dragMomentum={false} className="hidden sm:flex fixed top-20 left-4 flex-col gap-3 z-30 pointer-events-auto cursor-grab active:cursor-grabbing">
         {has('podcast') && (
-          <div className="w-[280px] h-[157px] shadow-md border border-gray-300 rounded-lg overflow-hidden bg-black flex items-center justify-center relative">
+          <div className="w-[280px] h-[157px] shadow-md border border-gray-300 rounded-lg overflow-hidden bg-black flex items-center justify-center relative pointer-events-none">
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/SUECfaeM0OA?autoplay=1&controls=0&mute=0" title="Podcast" frameBorder="0" allow="autoplay; encrypted-media; picture-in-picture" />
             <div className="absolute inset-0 z-10 hover:bg-black/10 transition-colors pointer-events-none" />
           </div>
@@ -796,9 +802,8 @@ export default function StimulationClicker({ onClose }) {
             <div className="absolute inset-0 z-10 hover:bg-black/10 transition-colors pointer-events-none" />
           </div>
         )}
-      </div>
-
-      <div className="hidden sm:flex fixed bottom-4 right-4 items-end gap-4 z-30 pointer-events-auto text-black">
+      </motion.div>
+      <motion.div drag dragMomentum={false} className="hidden sm:flex fixed bottom-4 right-4 items-end gap-4 z-30 pointer-events-auto text-black cursor-grab active:cursor-grabbing">
         {has('lofi') && (
           <div className="w-[300px] h-[168px] rounded-lg overflow-hidden shadow-md border border-gray-300 bg-black">
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&controls=0&playsinline=1" title="Lofi Girl" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowFullScreen />
@@ -809,27 +814,40 @@ export default function StimulationClicker({ onClose }) {
             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/zZ7AimPACzc?autoplay=1&controls=0&loop=1&playlist=zZ7AimPACzc&playsinline=1" title="Subway Surfers Gameplay" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" />
           </div>
         )}
-      </div>
+      </motion.div>
 
       {/* Achievements Panel */}
       {hasAchieve && (
-        <div className="fixed bottom-4 left-4 bg-white border border-gray-200 p-4 rounded-xl w-64 max-h-[400px] overflow-y-auto hidden md:block z-50 shadow-xl">
-          <p className="text-gray-500 text-xs uppercase tracking-widest font-bold mb-2 sticky top-0 bg-white/90 backdrop-blur-sm py-1 z-10">🏆 Achievements ({achievements.length}/{ACHIEVEMENTS_DEF.length})</p>
-          <div className="flex flex-col gap-3 mt-2">
-            {ACHIEVEMENTS_DEF.map(a => {
-              const unlocked = achievements.includes(a.id);
-              return (
-                <div key={a.id} className={`flex items-start gap-2 py-1 transition-colors ${unlocked ? 'text-yellow-600' : 'text-gray-400'}`}>
-                  <span className="text-lg">{unlocked ? '✅' : '🔒'}</span>
-                  <div className="flex-1">
-                    <span className={`font-bold block text-sm ${unlocked ? 'opacity-100' : 'opacity-60'}`}>{a.name}</span>
-                    <span className={`text-xs block mt-0.5 leading-tight ${unlocked ? 'text-gray-600' : 'text-gray-400 opacity-50'}`}>{a.desc}</span>
+        <motion.div 
+          drag 
+          dragControls={achieveDragControls}
+          dragListener={false}
+          dragMomentum={false} 
+          className="fixed bottom-4 left-4 z-50 pointer-events-none"
+        >
+          <div className="bg-white border border-gray-200 p-4 rounded-xl w-64 max-h-[400px] overflow-y-auto shadow-xl pointer-events-auto custom-scrollbar">
+            <p 
+              onPointerDown={(e) => achieveDragControls.start(e)}
+              className="text-gray-500 text-xs uppercase tracking-widest font-bold mb-2 sticky top-0 bg-white/90 backdrop-blur-sm py-1 z-10 cursor-grab active:cursor-grabbing border-b border-gray-100"
+            >
+              🏆 Achievements ({achievements.length}/{ACHIEVEMENTS_DEF.length})
+            </p>
+            <div className="flex flex-col gap-3 mt-2">
+              {ACHIEVEMENTS_DEF.map(a => {
+                const unlocked = achievements.includes(a.id);
+                return (
+                  <div key={a.id} className={`flex items-start gap-2 py-1 transition-colors ${unlocked ? 'text-yellow-600' : 'text-gray-400'}`}>
+                    <span className="text-lg">{unlocked ? '✅' : '🔒'}</span>
+                    <div className="flex-1">
+                      <span className={`font-bold block text-sm ${unlocked ? 'opacity-100' : 'opacity-60'}`}>{a.name}</span>
+                      <span className={`text-xs block mt-0.5 leading-tight ${unlocked ? 'text-gray-600' : 'text-gray-400 opacity-50'}`}>{a.desc}</span>
+                    </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
-        </div>
+        </motion.div>
       )}
 
       {/* ----------------------------------------------------------------------- */}
@@ -860,7 +878,7 @@ export default function StimulationClicker({ onClose }) {
         </div>
 
         {/* Score & Levels */}
-        <div className="text-center z-20 flex flex-col items-center">
+        <motion.div drag dragMomentum={false} className="text-center z-20 flex flex-col items-center cursor-grab active:cursor-grabbing px-8 py-4 bg-white/40 backdrop-blur-sm rounded-3xl border border-white/50 shadow-xl">
           <p className="text-xl font-bold text-black">
             {Math.floor(stim).toLocaleString('it-IT')} stimolazione
           </p>
@@ -889,10 +907,10 @@ export default function StimulationClicker({ onClose }) {
             {has('fitness') && <motion.span animate={{ y: [0, -5, 0] }} transition={{ repeat: Infinity, duration: 1 }}>💪</motion.span>}
             {has('tamagotchi') && <motion.span animate={{ rotate: [-10, 10, -10] }} transition={{ repeat: Infinity, duration: 2 }}>🐣</motion.span>}
           </div>
-        </div>
+        </motion.div>
 
         {/* Upgrades Row */}
-        <div className="flex flex-wrap items-center justify-center gap-4 mt-6 z-20 max-w-2xl px-4">
+        <motion.div drag dragMomentum={false} className="flex flex-wrap items-center justify-center gap-4 mt-6 z-20 max-w-2xl px-4 cursor-grab active:cursor-grabbing">
           {visibleUpgrades.map(u => {
             let actualCost = u.cost;
             if (u.id === 'dvd') actualCost = dvdCost(dvdCount);
@@ -919,53 +937,66 @@ export default function StimulationClicker({ onClose }) {
               </div>
             );
           })}
-        </div>
+        </motion.div>
 
         {/* Item Shop (Cosmetics) */}
         {has('item_shop') && (
-          <div className="mt-8 bg-white/90 backdrop-blur-md border border-gray-300 rounded-2xl p-4 shadow-xl max-w-2xl w-full text-black">
-            <h3 className="font-bold text-lg mb-4 text-center border-b pb-2">🛍️ Negozio Cosmetici</h3>
-            <div className="flex flex-wrap gap-4 justify-center">
-              {COSMETICS.map(c => {
-                const isOwned = boughtCosmetics.includes(c.id);
-                const canAfford = stim >= c.cost && !isOwned;
-                const isEquiped = equipedCosmetic === c.id;
-                return (
-                  <div key={c.id} className="relative group">
-                    <button
-                      onClick={() => {
-                        if (!isOwned && stim >= c.cost) {
-                          setStim(s => s - c.cost);
-                          setBoughtCosmetics(prev => [...prev, c.id]);
-                          setEquipedCosmetic(c.id);
-                        } else if (isOwned) {
-                          setEquipedCosmetic(isEquiped ? null : c.id);
+          <motion.div 
+            drag 
+            dragControls={shopDragControls}
+            dragListener={false}
+            dragMomentum={false} 
+            className="mt-8 z-20 pointer-events-none w-full max-w-2xl"
+          >
+            <div className="bg-white/90 backdrop-blur-md border border-gray-300 rounded-2xl p-4 shadow-xl text-black pointer-events-auto custom-scrollbar overflow-y-auto max-h-[400px]">
+              <h3 
+                onPointerDown={(e) => shopDragControls.start(e)}
+                className="font-bold text-lg mb-4 text-center border-b pb-2 cursor-grab active:cursor-grabbing sticky top-0 bg-white/10 backdrop-blur-sm z-10"
+              >
+                🛍️ Negozio Cosmetici
+              </h3>
+              <div className="flex flex-wrap gap-4 justify-center">
+                {COSMETICS.map(c => {
+                  const isOwned = boughtCosmetics.includes(c.id);
+                  const canAfford = stim >= c.cost && !isOwned;
+                  const isEquiped = equipedCosmetic === c.id;
+                  return (
+                    <div key={c.id} className="relative group">
+                      <button
+                        onClick={() => {
+                          if (!isOwned && stim >= c.cost) {
+                            setStim(s => s - c.cost);
+                            setBoughtCosmetics(prev => [...prev, c.id]);
+                            setEquipedCosmetic(c.id);
+                          } else if (isOwned) {
+                            setEquipedCosmetic(isEquiped ? null : c.id);
+                          }
+                        }}
+                        disabled={!canAfford && !isOwned}
+                        className={`w-14 h-14 flex items-center justify-center rounded-lg border-2 transition-all text-2xl relative
+                           ${isOwned
+                            ? (isEquiped ? 'border-green-500 bg-green-100 shadow-[0_0_10px_rgba(34,197,94,0.3)]' : 'border-gray-400 bg-gray-50 hover:bg-gray-200 cursor-pointer')
+                            : (canAfford ? 'border-gray-300 bg-white hover:border-black cursor-pointer' : 'border-gray-100 bg-gray-50 opacity-40 cursor-not-allowed')}
+                         `}
+                      >
+                        {c.emoji}
+                        {isEquiped && <span className="absolute -top-2 -right-2 text-xs bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center font-bold">✓</span>}
+                      </button>
+                      {/* Tooltip */}
+                      <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-36 bg-gray-900 text-white shadow-xl rounded p-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 text-center text-xs">
+                        <p className="font-bold mb-1 text-sm">{c.name}</p>
+                        <p className="text-gray-300 mb-2 italic text-[10px]">{c.desc}</p>
+                        {isOwned
+                          ? <span className="text-green-400 font-bold bg-gray-800 px-2 py-1 rounded">{isEquiped ? 'RIMUOVI' : 'INDOSSA'}</span>
+                          : <span className="font-mono bg-gray-800 px-2 py-1 rounded">{c.cost} stim</span>
                         }
-                      }}
-                      disabled={!canAfford && !isOwned}
-                      className={`w-14 h-14 flex items-center justify-center rounded-lg border-2 transition-all text-2xl relative
-                         ${isOwned
-                          ? (isEquiped ? 'border-green-500 bg-green-100 shadow-[0_0_10px_rgba(34,197,94,0.3)]' : 'border-gray-400 bg-gray-50 hover:bg-gray-200 cursor-pointer')
-                          : (canAfford ? 'border-gray-300 bg-white hover:border-black cursor-pointer' : 'border-gray-100 bg-gray-50 opacity-40 cursor-not-allowed')}
-                       `}
-                    >
-                      {c.emoji}
-                      {isEquiped && <span className="absolute -top-2 -right-2 text-xs bg-green-500 text-white rounded-full w-5 h-5 flex items-center justify-center font-bold">✓</span>}
-                    </button>
-                    {/* Tooltip */}
-                    <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-36 bg-gray-900 text-white shadow-xl rounded p-2 opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50 text-center text-xs">
-                      <p className="font-bold mb-1 text-sm">{c.name}</p>
-                      <p className="text-gray-300 mb-2 italic text-[10px]">{c.desc}</p>
-                      {isOwned
-                        ? <span className="text-green-400 font-bold bg-gray-800 px-2 py-1 rounded">{isEquiped ? 'RIMUOVI' : 'INDOSSA'}</span>
-                        : <span className="font-mono bg-gray-800 px-2 py-1 rounded">{c.cost} stim</span>
-                      }
+                      </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
+              </div>
             </div>
-          </div>
+          </motion.div>
         )}
 
       </div>

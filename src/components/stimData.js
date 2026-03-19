@@ -54,6 +54,7 @@ export const STOCK_TICKERS = [
   { id: 'DVD', name: 'DVD Inc.', basePrice: 50 },
   { id: 'LOFI', name: 'Lofi Co.', basePrice: 75 },
   { id: 'LOFI', name: 'Lofi Co.', basePrice: 75 },
+  { id: 'RAIN', name: 'RainTech', basePrice: 30 },
 ];
 
 export const CRYPTO_TICKERS = [
@@ -82,6 +83,8 @@ export const ALL_UPGRADES = [
   { id: 'critical', name: 'Colpi Critici', cost: 200, desc: '5% chance di colpo critico!', spc: 0, sps: 0, emoji: '💥', unlockAt: 25, needs: 'amount_anim' },
   { id: 'lofi', name: 'Lofi Beats', cost: 250, desc: 'Musica per studiare e rilassarsi.', spc: 0, sps: 10, emoji: '🎵', unlockAt: 25 },
   { id: 'pinwheel', name: 'Girandola', cost: 700, desc: 'Girandola sul bottone!', spc: 0, sps: 20, emoji: '🌀', unlockAt: 50 },
+  { id: 'hydraulic', name: 'Pressa Idraulica', cost: 1000, desc: 'Schiaccia le cose lentamente.', spc: 0, sps: 0, emoji: '🔩', unlockAt: 100 },
+  { id: 'achieve', name: 'Achievement', cost: 1500, desc: 'Festeggia i tuoi traguardi.', spc: 0, sps: 0, emoji: '🏆', unlockAt: 100 },
   { id: 'popcorn', name: 'Animazione Popcorn', cost: 3500, desc: 'Effetto popcorn sui click!', spc: 8, sps: 0, emoji: '🍿', unlockAt: 300, needs: 'amount_anim' },
   { id: 'slime', name: 'ASMR Slime', cost: 4000, desc: 'Guarda video ASMR di slime.', spc: 0, sps: 35, emoji: '🪷', unlockAt: 500 },
   { id: 'technicolor', name: 'Technicolor', cost: 5000, desc: 'Cambia colore al rimbalzo.', spc: 0, sps: 0, emoji: '🎨', unlockAt: 500, needs: 'dvd', spb: 10 },
@@ -124,6 +127,9 @@ export const ACHIEVEMENTS_DEF = [
   { id: 'level_10', name: 'Livello Su', desc: 'Raggiungi livello 10.', check: s => s.level >= 10 },
   { id: 'level_25', name: 'Livellatore', desc: 'Raggiungi livello 25.', check: s => s.level >= 25 },
   { id: 'level_50', name: 'Al Massimo', desc: 'Raggiungi livello 50.', check: s => s.level >= 50 },
+  { id: 'tube_rider', name: 'Surfista Metropolitano', desc: 'Subway Surfers a schermo intero.', check: s => s.boughtIds.includes('subway_fs') },
+  { id: 'corner_100', name: 'Cacciatore di Angoli', desc: '100 angoli DVD colpiti.', check: s => s.cornerHits >= 100 },
+  { id: 'day_trader', name: 'Day Trader', desc: 'Vendi un\'azione in profitto.', check: s => s.stockProfit > 0 },
   { id: 'gambler', name: 'Giocatore', desc: 'Vendi un\'azione in perdita.', check: s => s.stockLoss > 0 },
   { id: 'roaring_kitty', name: 'Roaring Kitty', desc: '100K stim dalle azioni.', check: s => s.totalStockGain >= 100000 },
   { id: 'shopaholic', name: 'Shopping Compulsivo', desc: 'Compra tutti i cosmetici.', check: s => s.cosmeticsBought >= 8 },
