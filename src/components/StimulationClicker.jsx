@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Gift, Heart, Trash2, ArrowRight, ArrowLeft, BookOpen, HelpCircle, X, Sparkles, Star, Image as ImageIcon, AlertTriangle, Flame, Activity, Ghost, TrendingUp, TrendingDown } from 'lucide-react';
 import Confetti from 'react-confetti';
 import {
-  ALL_UPGRADES, ACHIEVEMENTS_DEF, NEWS_ITEMS, FAKE_NOTIFS, DUOLINGO_QUESTIONS,
+  ALL_UPGRADES, ACHIEVEMENTS_DEF, NEWS_ITEMS, FAKE_NOTIFS,
   EMAILS, COSMETICS, STOCK_TICKERS, CRYPTO_TICKERS, dvdCost, hydraulicSpeedCost,
   FITNESS_EXERCISES, TWITCH_MESSAGES, SKYWRITER_ADS
 } from './stimData';
@@ -133,9 +133,7 @@ export default function StimulationClicker({ onClose }) {
   // UI & EVENTS
   const [hydraulicSquish, setHydraulicSquish] = useState(false);
   const [hydraulicReady, setHydraulicReady] = useState(true);
-  const [lootBox, setLootBox] = useState(null);
   const [screenTime, setScreenTime] = useState(0);
-  const [duoQuestion, setDuoQuestion] = useState(null);
 
   const [nextId2] = useState({ current: 0 });
   const [powerupFlash, setPowerupFlash] = useState(null); // { text, emoji }
@@ -188,18 +186,16 @@ export default function StimulationClicker({ onClose }) {
   const spsRef = useRef(0);
   spsRef.current = sps;
 
-  // Game Pause logic
-  const isPaused = duoQuestion !== null;
 
   useEffect(() => {
     const interval = setInterval(() => {
       // Do not produce if paused
-      if (spsRef.current <= 0 || duoQuestion !== null) return;
+      if (spsRef.current <= 0) return;
       setStim(s => s + spsRef.current / 10);
       setTotalProd(t => t + spsRef.current / 10);
     }, 100);
     return () => clearInterval(interval);
-  }, [duoQuestion]);
+  }, []);
 
   // Screen Time
   useEffect(() => {
@@ -216,34 +212,6 @@ export default function StimulationClicker({ onClose }) {
     return () => { document.title = 'Pensierino di compleanno!!!'; };
   }, [boughtIds]);
 
-  // Loot Box Spawner
-  useEffect(() => {
-    if (!has('loot_boxes')) return;
-    const interval = setInterval(() => {
-      if (!lootBox && Math.random() < 0.3) {
-        setLootBox({
-          id: Date.now(),
-          x: 10 + Math.random() * 80,
-          y: 20 + Math.random() * 60,
-          reward: Math.floor(Math.random() * 5000) + 1000
-        });
-        // Auto-despawn after 5 seconds if not clicked
-        setTimeout(() => setLootBox(null), 5000);
-      }
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [boughtIds, lootBox]);
-
-  // Duolingo Spawner
-  useEffect(() => {
-    if (!has('duolingo')) return;
-    const interval = setInterval(() => {
-      if (!duoQuestion && Math.random() < 0.3) {
-        setDuoQuestion(DUOLINGO_QUESTIONS[Math.floor(Math.random() * DUOLINGO_QUESTIONS.length)]);
-      }
-    }, 8000);
-    return () => clearInterval(interval);
-  }, [boughtIds, duoQuestion]);
 
   // Achievement Checker
   useEffect(() => {
@@ -274,27 +242,6 @@ export default function StimulationClicker({ onClose }) {
     return () => clearInterval(interval);
   }, [boughtIds]);
 
-  // Thunder sounds logic
-  useEffect(() => {
-    if (!has('thunder')) return;
-    const interval = setInterval(() => {
-      if (Math.random() < 0.3) {
-        // Play a random thunder sound
-        const audio = new Audio('https://s3.amazonaws.com/freecodecamp/simonSound1.mp3'); // Fallback placeholder sound if no thunder is easily linkable, though realistic we'd want a real thunder wav (placeholder for now to show it "does" something)
-        // A better approach for the user: Just visually flash the screen to indicate thunder, since audio requires interact.
-        const flash = document.createElement('div');
-        flash.className = 'fixed inset-0 bg-white z-[999] opacity-0 pointer-events-none transition-opacity duration-75';
-        document.body.appendChild(flash);
-
-        setTimeout(() => { flash.style.opacity = '0.8'; }, 10);
-        setTimeout(() => {
-          flash.style.opacity = '0';
-          setTimeout(() => flash.remove(), 200);
-        }, 100);
-      }
-    }, 8000);
-    return () => clearInterval(interval);
-  }, [boughtIds]);
 
   // Email Notifs Loop
   useEffect(() => {
@@ -416,7 +363,7 @@ export default function StimulationClicker({ onClose }) {
   };
 
   useEffect(() => {
-    if (!hasHydraulic || duoQuestion !== null || !has('auto_hydraulic')) return;
+    if (!hasHydraulic || !has('auto_hydraulic')) return;
     const speed = 2000;
     const interval = setInterval(() => {
       setHydraulicSquish(true);
@@ -427,11 +374,11 @@ export default function StimulationClicker({ onClose }) {
       setTimeout(() => setHydraulicReady(true), speed);
     }, speed);
     return () => clearInterval(interval);
-  }, [hasHydraulic, boughtIds, duoQuestion]);
+  }, [hasHydraulic, boughtIds]);
 
   const handleHydraulicClick = (e) => {
     if (e) e.stopPropagation();
-    if (hydraulicSquish || isPaused || !hydraulicReady || has('auto_hydraulic')) return;
+    if (hydraulicSquish || !hydraulicReady || has('auto_hydraulic')) return;
 
     setHydraulicSquish(true);
     setHydraulicReady(false);
@@ -453,7 +400,6 @@ export default function StimulationClicker({ onClose }) {
 
   const handleClick = (e) => {
     if (e) e.stopPropagation();
-    if (isPaused) return; // Cannot click while duolingo active
 
     let gain = spc;
     const isCrit = hasCritical && Math.random() < 0.05;
@@ -486,12 +432,6 @@ export default function StimulationClicker({ onClose }) {
     setTotalClicks(c => c + 1);
   };
 
-  const openLootBox = () => {
-    if (!lootBox) return;
-    setStim(s => s + lootBox.reward);
-    setTotalProd(t => t + lootBox.reward);
-    setLootBox(null);
-  };
 
   const handleBuyStock = (id, amount) => {
     setStocks(prev => prev.map(s => {
@@ -544,12 +484,6 @@ export default function StimulationClicker({ onClose }) {
 
   return (
     <div className="w-screen min-h-screen flex flex-col justify-center items-center overflow-hidden relative select-none font-sans transition-colors duration-1000 pointer-events-none" style={bgStyle}>
-
-      {/* BACKGROUND ELEMENTS */}
-      {/* Thunder flash (no rain animation) */}
-      {has('thunder') && (
-        <motion.div animate={{ opacity: [0, 0, 0.6, 0, 0, 0, 0.3, 0] }} transition={{ repeat: Infinity, duration: 8, ease: 'linear' }} className="fixed inset-0 bg-white pointer-events-none z-0 mix-blend-overlay" />
-      )}
 
       {/* DVDs (Isolated Component) */}
       <DVDLayer count={dvdCount} onBounce={handleDvdBounce} speedMult={dvdSpeed} />
@@ -722,7 +656,7 @@ export default function StimulationClicker({ onClose }) {
       {has('hydraulic') && (
         <div
           onClick={handleHydraulicClick}
-          className={`hidden lg:flex fixed top-24 right-[340px] flex-col items-center z-40 pointer-events-auto shadow-2xl rounded-xl border-4 border-black bg-black overflow-hidden w-[320px] h-[180px] ${!has('auto_hydraulic') && hydraulicReady && !isPaused ? 'cursor-pointer hover:scale-105 active:scale-95 transition-transform' : 'opacity-80 grayscale-[30%]'}`}
+          className={`hidden lg:flex fixed top-24 right-[340px] flex-col items-center z-40 pointer-events-auto shadow-2xl rounded-xl border-4 border-black bg-black overflow-hidden w-[320px] h-[180px] ${!has('auto_hydraulic') && hydraulicReady ? 'cursor-pointer hover:scale-105 active:scale-95 transition-transform' : 'opacity-80 grayscale-[30%]'}`}
         >
           {/* Loading bar when not ready & manual */}
           {!has('auto_hydraulic') && (!hydraulicReady || hydraulicSquish) && (
@@ -879,7 +813,7 @@ export default function StimulationClicker({ onClose }) {
 
       {/* Achievements Panel */}
       {hasAchieve && (
-        <div className="fixed bottom-4 left-4 bg-white border border-gray-200 p-4 rounded-xl w-64 max-h-[30vh] overflow-y-auto hidden md:block z-50 shadow-xl">
+        <div className="fixed bottom-4 left-4 bg-white border border-gray-200 p-4 rounded-xl w-64 max-h-[400px] overflow-y-auto hidden md:block z-50 shadow-xl">
           <p className="text-gray-500 text-xs uppercase tracking-widest font-bold mb-2 sticky top-0 bg-white/90 backdrop-blur-sm py-1 z-10">🏆 Achievements ({achievements.length}/{ACHIEVEMENTS_DEF.length})</p>
           <div className="flex flex-col gap-3 mt-2">
             {ACHIEVEMENTS_DEF.map(a => {
@@ -915,7 +849,7 @@ export default function StimulationClicker({ onClose }) {
             }}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.95 }}
-            className={`bg-white border text-black rounded-lg px-6 py-2 text-xl hover:bg-gray-100 active:bg-gray-200 transition-colors shadow-sm cursor-pointer font-sans relative ${equipedCosmetic === 'neon_glow' ? 'shadow-[0_0_20px_rgba(168,85,247,0.8)] border-purple-500' : ''}`}
+            className={`bg-white border text-black transition-all hover:bg-gray-100 active:bg-gray-200 shadow-sm cursor-pointer font-sans relative ${has('btn_upgrade') ? 'rounded-full px-12 py-5 text-4xl shadow-md border-gray-400' : 'rounded-lg px-6 py-2 text-xl'} ${equipedCosmetic === 'neon_glow' ? 'shadow-[0_0_20px_rgba(168,85,247,0.8)] border-purple-500' : ''}`}
             style={{ borderColor: equipedCosmetic === 'neon_glow' ? '#a855f7' : '#ccc', transformOrigin: 'center center' }}
           >
             {has('btn_upgrade') ? 'CLICCA QUI!' : 'Clicca qui'}
@@ -1037,60 +971,6 @@ export default function StimulationClicker({ onClose }) {
       </div>
 
 
-      {/* Loot Box Overlay */}
-      <AnimatePresence>
-        {lootBox && (
-          <motion.div
-            initial={{ scale: 0, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            exit={{ scale: 0, opacity: 0 }}
-            onClick={openLootBox}
-            className="absolute z-40 cursor-pointer hover:scale-110 active:scale-95 transition-transform pointer-events-auto"
-            style={{ left: `${lootBox.x}%`, top: `${lootBox.y}%` }}
-          >
-            <div className="text-5xl drop-shadow-[0_0_15px_rgba(234,179,8,1)] animate-bounce">
-              🎁
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Duolingo Question Modal */}
-      <AnimatePresence>
-        {duoQuestion && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm flex items-center justify-center"
-          >
-            <div className="bg-white text-slate-900 p-8 rounded-3xl max-w-md w-full shadow-2xl relative overflow-hidden border-b-8 border-slate-200">
-              <div className="absolute -top-10 -right-10 text-9xl opacity-10">🦉</div>
-              <h3 className="text-2xl font-black text-green-500 mb-6 flex items-center gap-3">
-                <span className="text-4xl text-green-500">🦉</span> È ora di una lezioncina!
-              </h3>
-              <p className="text-lg font-bold text-slate-700 mb-6">Traducilo: <span className="text-slate-900 block mt-2 text-2xl">{duoQuestion.q}</span></p>
-              <div className="flex flex-col gap-3">
-                {duoQuestion.opts && duoQuestion.opts.map((opt, i) => (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      if (i === duoQuestion.correct) {
-                        setDuoQuestion(null);
-                      } else {
-                        alert("Sbagliato! Il gufo è deluso. (Riprova)");
-                      }
-                    }}
-                    className="py-4 px-6 text-left rounded-2xl border-2 border-slate-200 font-bold text-slate-700 hover:border-green-400 hover:bg-green-50 active:translate-y-1 transition-all"
-                  >
-                    {opt}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Achievement TOAST popup */}
       <AnimatePresence>

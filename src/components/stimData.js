@@ -23,25 +23,12 @@ export const FAKE_NOTIFS = [
   { icon: '🔔', text: '47 nuovi messaggi non letti su WhatsApp' },
   { icon: '🧬', text: 'UniTo: Risultato esame disponibile!' },
   { icon: '🍕', text: 'Il tuo ordine Deliveroo è in arrivo — 3 min' },
-  { icon: '👾', text: 'Il tuo streak Duolingo è in pericolo!' },
   { icon: '🎬', text: 'Netflix: hai 3 nuovi episodi da vedere' },
   { icon: '💌', text: 'Nuovo match su Tinder 👀' },
   { icon: '⚡', text: 'Amazon Lightning Deal termina tra 00:03!' },
   { icon: '🤯', text: 'BREAKING: è successa una cosa incredibile' },
 ];
 
-export const DUOLINGO_QUESTIONS = [
-  { q: 'Come si dice "gatto" in inglese?', opts: ['Dog', 'Cat', 'Bird', 'Fish'], correct: 1 },
-  { q: 'Traduci: "I am happy"', opts: ['Sono stanco', 'Sono felice', 'Sono triste', 'Sono arrabbiato'], correct: 1 },
-  { q: 'Come si dice "acqua" in francese?', opts: ['Eau', 'Feu', 'Air', 'Terre'], correct: 0 },
-  { q: '"Danke" in che lingua è?', opts: ['Francese', 'Spagnolo', 'Tedesco', 'Portoghese'], correct: 2 },
-  { q: 'Traduci: "Buenos días"', opts: ['Buona notte', 'Buongiorno', 'Buona sera', 'Arrivederci'], correct: 1 },
-  { q: 'Come si dice "libro" in giapponese?', opts: ['本 (hon)', '車 (kuruma)', '犬 (inu)', '花 (hana)'], correct: 0 },
-  { q: '"Merci" significa...', opts: ['Scusa', 'Per favore', 'Grazie', 'Prego'], correct: 2 },
-  { q: 'Traduci: "Ich liebe dich"', opts: ['Ti odio', 'Buongiorno', 'Come stai?', 'Ti amo'], correct: 3 },
-  { q: '"Hola" in che lingua è?', opts: ['Italiano', 'Spagnolo', 'Francese', 'Tedesco'], correct: 1 },
-  { q: 'Come si dice "amico" in inglese?', opts: ['Enemy', 'Stranger', 'Friend', 'Brother'], correct: 2 },
-];
 
 export const EMAILS = [
   { from: '👵 Nonna Maria', subject: 'Auguri tesoro mio!!', body: 'Ciao amore della nonna, ti ho mandato 50€ sul conto. Comprami il pane quando passi. Baci nonna.', reply: 'Grazie nonna! ❤️ Ti voglio bene!' },
@@ -66,7 +53,7 @@ export const STOCK_TICKERS = [
   { id: 'STIM', name: 'StimCorp', basePrice: 100 },
   { id: 'DVD', name: 'DVD Inc.', basePrice: 50 },
   { id: 'LOFI', name: 'Lofi Co.', basePrice: 75 },
-  { id: 'RAIN', name: 'RainTech', basePrice: 30 },
+  { id: 'LOFI', name: 'Lofi Co.', basePrice: 75 },
 ];
 
 export const CRYPTO_TICKERS = [
@@ -94,11 +81,7 @@ export const ALL_UPGRADES = [
   { id: 'news', name: 'Ultime Notizie', cost: 100, desc: 'Rimani aggiornato sulle ultime news.', spc: 0, sps: 4, emoji: '📺', unlockAt: 10 },
   { id: 'critical', name: 'Colpi Critici', cost: 200, desc: '5% chance di colpo critico!', spc: 0, sps: 0, emoji: '💥', unlockAt: 25, needs: 'amount_anim' },
   { id: 'lofi', name: 'Lofi Beats', cost: 250, desc: 'Musica per studiare e rilassarsi.', spc: 0, sps: 10, emoji: '🎵', unlockAt: 25 },
-  { id: 'rain', name: 'Suoni Pioggia', cost: 300, desc: 'Suoni della pioggia rilassanti.', spc: 0, sps: 15, emoji: '🌧️', unlockAt: 50 },
   { id: 'pinwheel', name: 'Girandola', cost: 700, desc: 'Girandola sul bottone!', spc: 0, sps: 20, emoji: '🌀', unlockAt: 50 },
-  { id: 'hydraulic', name: 'Pressa Idraulica', cost: 1000, desc: 'Schiaccia le cose lentamente.', spc: 0, sps: 0, emoji: '🔩', unlockAt: 100 },
-  { id: 'achieve', name: 'Achievement', cost: 1500, desc: 'Festeggia i tuoi traguardi.', spc: 0, sps: 0, emoji: '🏆', unlockAt: 100 },
-  { id: 'thunder', name: 'Tuoni', cost: 2000, desc: 'Aggiungi tuoni ambientali.', spc: 0, sps: 8, emoji: '⛈️', unlockAt: 200, needs: 'rain' },
   { id: 'popcorn', name: 'Animazione Popcorn', cost: 3500, desc: 'Effetto popcorn sui click!', spc: 8, sps: 0, emoji: '🍿', unlockAt: 300, needs: 'amount_anim' },
   { id: 'slime', name: 'ASMR Slime', cost: 4000, desc: 'Guarda video ASMR di slime.', spc: 0, sps: 35, emoji: '🪷', unlockAt: 500 },
   { id: 'technicolor', name: 'Technicolor', cost: 5000, desc: 'Cambia colore al rimbalzo.', spc: 0, sps: 0, emoji: '🎨', unlockAt: 500, needs: 'dvd', spb: 10 },
@@ -110,10 +93,8 @@ export const ALL_UPGRADES = [
   { id: 'corner_hits', name: 'Angoli DVD', cost: 15000, desc: 'Gli angoli DVD danno 10x stimolazione.', spc: 0, sps: 0, emoji: '📐', unlockAt: 2000, needs: 'dvd' },
   { id: 'ui_upgrade', name: 'Upgrade UI', cost: 15000, desc: 'Colori brillanti. Più gradienti.', spc: 0, sps: 0, emoji: '🎆', unlockAt: 2000 },
   { id: 'item_shop', name: 'Negozio Oggetti', cost: 17500, desc: 'Compra oggetti cosmetici.', spc: 0, sps: 0, emoji: '🛍️', unlockAt: 3000 },
-  { id: 'loot_boxes', name: 'Loot Box', cost: 20000, desc: 'Sorprese meccaniche.', spc: 0, sps: 0, emoji: '📦', unlockAt: 5000 },
   { id: 'btn_upgrade2', name: 'Upgrade Bottone II', cost: 25000, desc: 'Ogni click vale l\'1% del tuo SPS.', spc: 0, sps: 0, emoji: '🔷', unlockAt: 5000, needs: 'btn_upgrade' },
   { id: 'stock_market', name: 'Borsa Valori', cost: 25000, desc: 'Investi nel tuo futuro.', spc: 0, sps: 0, emoji: '📊', unlockAt: 5000 },
-  { id: 'duolingo', name: 'Duolingo', cost: 25000, desc: 'Impara una nuova lingua, altrimenti...', spc: 0, sps: 0, emoji: '🦉', unlockAt: 5000 },
   { id: 'meditation', name: 'Meditazione', cost: 35000, desc: 'Rilassa la mente.', spc: 0, sps: 120, emoji: '🧘', unlockAt: 8000 },
   { id: 'email', name: 'Email', cost: 60000, desc: 'Prenditi una pausa e controlla la posta.', spc: 0, sps: 0, emoji: '📧', unlockAt: 15000 },
   { id: 'fitness', name: 'Personal Trainer', cost: 75000, desc: 'Mantieniti in forma davanti allo schermo.', spc: 0, sps: 100, emoji: '💪', unlockAt: 20000 },
@@ -143,15 +124,8 @@ export const ACHIEVEMENTS_DEF = [
   { id: 'level_10', name: 'Livello Su', desc: 'Raggiungi livello 10.', check: s => s.level >= 10 },
   { id: 'level_25', name: 'Livellatore', desc: 'Raggiungi livello 25.', check: s => s.level >= 25 },
   { id: 'level_50', name: 'Al Massimo', desc: 'Raggiungi livello 50.', check: s => s.level >= 50 },
-  { id: 'loot_1', name: 'Trovatore Loot', desc: 'Apri una loot box.', check: s => s.lootOpened >= 1 },
-  { id: 'loot_25', name: 'Accumulatore Loot', desc: 'Apri 25 loot box.', check: s => s.lootOpened >= 25 },
-  { id: 'tube_rider', name: 'Surfista Metropolitano', desc: 'Subway Surfers a schermo intero.', check: s => s.boughtIds.includes('subway_fs') },
-  { id: 'corner_100', name: 'Cacciatore di Angoli', desc: '100 angoli DVD colpiti.', check: s => s.cornerHits >= 100 },
-  { id: 'day_trader', name: 'Day Trader', desc: 'Vendi un\'azione in profitto.', check: s => s.stockProfit > 0 },
   { id: 'gambler', name: 'Giocatore', desc: 'Vendi un\'azione in perdita.', check: s => s.stockLoss > 0 },
   { id: 'roaring_kitty', name: 'Roaring Kitty', desc: '100K stim dalle azioni.', check: s => s.totalStockGain >= 100000 },
-  { id: 'hoot_hoot', name: 'Hoot Hoot', desc: 'Compra Duolingo.', check: s => s.boughtIds.includes('duolingo') },
-  { id: 'owl_scholar', name: 'Studioso del Gufo', desc: '10 risposte Duolingo corrette.', check: s => s.duoCorrect >= 10 },
   { id: 'shopaholic', name: 'Shopping Compulsivo', desc: 'Compra tutti i cosmetici.', check: s => s.cosmeticsBought >= 8 },
   { id: 'casual_shopper', name: 'Shopper Casual', desc: 'Compra un cosmetico.', check: s => s.cosmeticsBought >= 1 },
   { id: 'cursor_coll', name: 'Collezionista Cursori', desc: 'Compra un cursore.', check: s => s.boughtCosmetics?.some(c => c.startsWith('cursor_')) },
@@ -175,7 +149,6 @@ export const TWITCH_MESSAGES = [
   { user: 'mod_hammer', msg: '!timeout dvd_enjoyer', color: '#00ff00' },
   { user: 'sub_alert', msg: '🎉 Nuovo sub!!!', color: '#ff00ff' },
   { user: 'lurker_supreme', msg: '...', color: '#888888' },
-  { user: 'duolingo_owl', msg: 'HAI SBAGLIATO 🦉', color: '#58cc02' },
   { user: 'eliot_alderson', msg: 'Hello, Friend.', color: '#00aaff' },
 ];
 
