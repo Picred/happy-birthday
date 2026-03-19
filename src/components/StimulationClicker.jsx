@@ -541,17 +541,17 @@ export default function StimulationClicker({ onClose }) {
       )}
 
       {/* ADMIN CHEAT BUTTON FOR TESTING */}
-      
+
       <button
         onClick={() => {
           setStim(s => s + 10000000);
           setTotalProd(t => t + 10000000);
         }}
-        className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[100] bg-red-600 font-bold text-white text-[10px] px-2 py-1 rounded-sm shadow-xl border border-red-900 opacity-50 hover:opacity-100 pointer-events-auto"
+        className="fixed bottom-4 left-1/2 -translate-x-1/2 z-[100] bg-transparent font-bold text-white text-[10px] px-2 py-1 rounded-sm shadow-xl border border-slate-100 opacity-50 hover:opacity-100 pointer-events-auto"
       >
         ADMIN +10M
       </button>
-      
+
 
       {/* ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ */}
       {/* 3. FIXED OVERLAYS (Ensures no "compenetrazione" with center content)     */}
@@ -818,15 +818,15 @@ export default function StimulationClicker({ onClose }) {
 
       {/* Achievements Panel */}
       {hasAchieve && (
-        <motion.div 
-          drag 
+        <motion.div
+          drag
           dragControls={achieveDragControls}
           dragListener={false}
-          dragMomentum={false} 
+          dragMomentum={false}
           className="fixed bottom-4 left-4 z-50 pointer-events-none"
         >
           <div className="bg-white border border-gray-200 p-4 rounded-xl w-64 max-h-[400px] overflow-y-auto shadow-xl pointer-events-auto custom-scrollbar">
-            <p 
+            <p
               onPointerDown={(e) => achieveDragControls.start(e)}
               className="text-gray-500 text-xs uppercase tracking-widest font-bold mb-2 sticky top-0 bg-white/90 backdrop-blur-sm py-1 z-10 cursor-grab active:cursor-grabbing border-b border-gray-100"
             >
@@ -941,15 +941,15 @@ export default function StimulationClicker({ onClose }) {
 
         {/* Item Shop (Cosmetics) */}
         {has('item_shop') && (
-          <motion.div 
-            drag 
+          <motion.div
+            drag
             dragControls={shopDragControls}
             dragListener={false}
-            dragMomentum={false} 
+            dragMomentum={false}
             className="mt-8 z-20 pointer-events-none w-full max-w-2xl"
           >
             <div className="bg-white/90 backdrop-blur-md border border-gray-300 rounded-2xl p-4 shadow-xl text-black pointer-events-auto custom-scrollbar overflow-y-auto max-h-[400px]">
-              <h3 
+              <h3
                 onPointerDown={(e) => shopDragControls.start(e)}
                 className="font-bold text-lg mb-4 text-center border-b pb-2 cursor-grab active:cursor-grabbing sticky top-0 bg-white/10 backdrop-blur-sm z-10"
               >
